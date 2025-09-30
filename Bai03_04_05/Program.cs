@@ -27,21 +27,25 @@ namespace BTTH_Bai03_04_05
               
                 switch (Option)
                 {
+                    //(a)
                     case 1:
                         {
                             Console.WriteLine("Kiem tra tinh hop le cua ngay thang nam");
                             userDate.ReadDate();
                             userDate.GetDate();
-                            Console.WriteLine((userDate.IsValidDate()) ?  " la Ngay Hop le" : " la Ngay Khong Hop le");
+                            Console.WriteLine((userDate.IsValidDate())? 
+                                " la Ngay Hop le" : " la Ngay Khong Hop le");
                             break;
                         }
+                    //(b)
                     case 2:
                         {
                             Console.WriteLine("Tim so ngay trong thang dua vao thang va nam");
                             userDate.ReadMonthAndYear();
-                            Console.WriteLine(userDate.GetDaysInMonth() != 0 ? "So ngay trong thang {0} la {1}" : "Khong the xac dinh!", userDate.GetMonth(),userDate.GetDaysInMonth());
+                            Console.WriteLine($"So ngay trong thang {userDate.GetMonth()} la {userDate.GetDaysInMonth()}"); 
                             break;
                         }
+                    //(c)
                     case 3:
                         {
                             Console.WriteLine("Tim thu trong tuan dua vao ngay thang nam");
@@ -52,7 +56,7 @@ namespace BTTH_Bai03_04_05
                                 userDate.ReadDate();
                             }    
                             userDate.GetDate();
-                            Console.WriteLine( " la : " + userDate.DayOfWeek());
+                            Console.WriteLine( $" la : {userDate.DayOfWeek()}");
                             break;
                         }
                     case 0:
@@ -66,10 +70,7 @@ namespace BTTH_Bai03_04_05
                             break;
                         }
                 }
-            } while (Option !=0);
-                    
-           
-            
+            } while (Option !=0);  
         }
     }
     public class Date
@@ -77,22 +78,26 @@ namespace BTTH_Bai03_04_05
         private int Day;
         private int Month;
         private int Year;
+
         public Date( int Day =1, int Month = 1, int Year = 1)
         {
             this.Day = Day;
             this.Month = Month;
             this.Year = Year;
         }
+
         //Xuat Ngày/Tháng/Năm
         public void GetDate()
         {
-            Console.Write("{0}/{1}/{2}", Day, Month, Year);
+            Console.Write($"{Day}/{Month}/{Year}");
         }
+
         //Lấy giá trị Month
         public int GetMonth()
         {
             return Month;
         }
+
         //Nhập số nguyên trong khoảng max, min
         public int ReadIntInRange(string note, int min, int max)
         {
@@ -100,10 +105,11 @@ namespace BTTH_Bai03_04_05
             do
             {
                 Console.Write(note);
-            } while (!int.TryParse(Console.ReadLine(), out num) || num > max || num < min);
+            } while (!int.TryParse(Console.ReadLine(), out num)
+                || num > max || num < min);
             return num;
-
         }
+
         //Nhập số nguyên khác 0
         public int ReadIntNot0(string note)
         {
@@ -111,10 +117,11 @@ namespace BTTH_Bai03_04_05
             do
             {
                 Console.Write(note);
-            } while (!int.TryParse(Console.ReadLine(), out num) || num ==0);
+            } while (!int.TryParse(Console.ReadLine(), out num)
+                || num ==0);
             return num;
-
         }
+
         //Nhập ngày tháng năm từ bàn phím
         public void ReadDate()
         {
@@ -122,13 +129,13 @@ namespace BTTH_Bai03_04_05
             this.Month = ReadIntInRange("Nhap Thang(1 - 12) : ", 1, 12);
             this.Year = ReadIntNot0("Nhap Nam (Khac 0): ");
         }
-        
 
         //Kiểm tra có phải năm nhuận không
         private bool IsLeap()
         {
             return (this.Year % 4 == 0 && this.Year % 100 != 0) || (this.Year % 400 == 0);
         }
+
         //(a)Kiểm tra Ngày,tháng,năm có hợp lệ không
         public bool IsValidDate()
         {
@@ -164,11 +171,10 @@ namespace BTTH_Bai03_04_05
                     {
                         return false;
                     }
-
             }
             return true;
-
         }
+
         //Nhập tháng và năm
         public void ReadMonthAndYear()
         {
@@ -201,6 +207,7 @@ namespace BTTH_Bai03_04_05
                     }
             }
         }
+
         //Trả về Thứ trong tuần
         public string DayOfWeek()
         {
@@ -222,8 +229,6 @@ namespace BTTH_Bai03_04_05
             string[] days = { "Thu bay", "Chu nhat", "Thu hai", "Thu ba", "Thu tu", "Thu nam", "Thu sau" };
             return days[(h + 7) % 7];
         }
-
-
     }
 }
 
