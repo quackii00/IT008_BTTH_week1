@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Reflection.Metadata.Ecma335;
+
 
 namespace BTTH_Bai03_04_05
 {
@@ -7,29 +7,39 @@ namespace BTTH_Bai03_04_05
     {
         static void Main(String[] args)
         {
+            byte Option;
             Date userDate = new Date();
-            Console.WriteLine("Chon cac option sau: ");
-            Console.WriteLine("1. Nhap ngay thang nam roi kiem tra tinh hop le");
-            Console.WriteLine("2. Nhap thang nam roi in ra so ngay cua thang ");
-            Console.WriteLine("3. Nhap ngay thang nam roi in ra thu trong tuan");
-            Console.Write("Lua chon cua ban la (1,2,3): ");
-            byte Option = byte.Parse(Console.ReadLine());
             do
             {
+                Console.WriteLine("\n--- Menu ---");
+                Console.WriteLine("1. Nhap ngay/thang/nam va kiem tra ngay hop le");
+                Console.WriteLine("2. Nhap thang/nam va in ra so ngay cua thang do");
+                Console.WriteLine("3. Nhap ngay/thang/nam va in ra thu trong tuan");
+                Console.WriteLine("0. Thoat");
+                Console.Write("Lua chon: ");
+
+                if (!byte.TryParse(Console.ReadLine(), out Option))
+                {
+                    Console.WriteLine("Nhap khong hop le. Thu lai!");
+                    continue;
+                }
+
+              
                 switch (Option)
                 {
                     case 1:
                         {
                             Console.WriteLine("Kiem tra tinh hop le cua ngay thang nam");
                             userDate.ReadDate();
-                            Console.WriteLine((userDate.IsValidDate()) ? "Ngay Hop le" : "Ngay Khong Hop le");
+                            userDate.GetDate();
+                            Console.WriteLine((userDate.IsValidDate()) ?  " la Ngay Hop le" : " la Ngay Khong Hop le");
                             break;
                         }
                     case 2:
                         {
                             Console.WriteLine("Tim so ngay trong thang dua vao thang va nam");
                             userDate.ReadMonthAndYear();
-                            Console.WriteLine(userDate.GetDaysInMonth() != 0 ? "So ngay trong thang la {0}" : "Khong the xac dinh vi thang, nam khong hop le", userDate.GetDaysInMonth());
+                            Console.WriteLine(userDate.GetDaysInMonth() != 0 ? "So ngay trong thang {0} la {1}" : "Khong the xac dinh!", userDate.GetMonth(),userDate.GetDaysInMonth());
                             break;
                         }
                     case 3:
@@ -41,19 +51,22 @@ namespace BTTH_Bai03_04_05
                                 Console.WriteLine("Ngay khong hop le, Hay nhap lai!");
                                 userDate.ReadDate();
                             }    
-                            Console.WriteLine("Thu trong tuan la: " + userDate.DayOfWeek());
+                            userDate.GetDate();
+                            Console.WriteLine( " la : " + userDate.DayOfWeek());
+                            break;
+                        }
+                    case 0:
+                        {
+                            Console.WriteLine("Ket thuc chuong trinh");
                             break;
                         }
                     default:
                         {
-                            Console.WriteLine("Moi chon lai Option");
+                            Console.WriteLine("Moi chon lai !");
                             break;
                         }
                 }
-                Console.WriteLine("Chon lai Option hoac nhap 0 de ket thuc chuong trinh");
-                Console.Write("Lua chon cua ban la (1,2,3,0): ");
-                Option = byte.Parse(Console.ReadLine());
-            } while (Option >= 1 && Option <= 3);
+            } while (Option !=0);
                     
            
             
@@ -64,22 +77,50 @@ namespace BTTH_Bai03_04_05
         private int Day;
         private int Month;
         private int Year;
-        public Date( int Day =1, int Month = 0, int Year = 0)
+        public Date( int Day =1, int Month = 1, int Year = 1)
         {
             this.Day = Day;
             this.Month = Month;
             this.Year = Year;
         }
+        //Xuat Ngày/Tháng/Năm
+        public void GetDate()
+        {
+            Console.Write("{0}/{1}/{2}", Day, Month, Year);
+        }
+        //Lấy giá trị Month
+        public int GetMonth()
+        {
+            return Month;
+        }
+        //Nhập số nguyên trong khoảng max, min
+        public int ReadIntInRange(string note, int min, int max)
+        {
+            int num;
+            do
+            {
+                Console.Write(note);
+            } while (!int.TryParse(Console.ReadLine(), out num) || num > max || num < min);
+            return num;
 
+        }
+        //Nhập số nguyên khác 0
+        public int ReadIntNot0(string note)
+        {
+            int num;
+            do
+            {
+                Console.Write(note);
+            } while (!int.TryParse(Console.ReadLine(), out num) || num ==0);
+            return num;
+
+        }
         //Nhập ngày tháng năm từ bàn phím
         public void ReadDate()
         {
-            Console.Write("Nhap Ngay (1-31) : ");
-            this.Day = byte.Parse(Console.ReadLine());
-            Console.Write("Nhap Thang (1-12) : ");
-            this.Month = byte.Parse(Console.ReadLine());
-            Console.Write("Nhap Nam (Khac 0): ");
-            this.Year= int.Parse(Console.ReadLine());
+            this.Day = ReadIntInRange("Nhap Ngay (1-31) : ", 1, 31);
+            this.Month = ReadIntInRange("Nhap Thang(1 - 12) : ", 1, 12);
+            this.Year = ReadIntNot0("Nhap Nam (Khac 0): ");
         }
         
 
@@ -131,12 +172,13 @@ namespace BTTH_Bai03_04_05
         //Nhập tháng và năm
         public void ReadMonthAndYear()
         {
-            Console.Write("Nhap Thang : ");
+            Console.Write("Nhap Thang ( 1-12): ");
             this.Month = byte.Parse(Console.ReadLine());
-            Console.Write("Nhap Nam : ");
+            Console.Write("Nhap Nam (khac 0): ");
             this.Year = int.Parse(Console.ReadLine());
         }
        
+        //Trả về số ngày của tháng khi biết tháng và năm
         public byte GetDaysInMonth()
         {
             if (!IsValidDate()) return 0;
@@ -159,6 +201,7 @@ namespace BTTH_Bai03_04_05
                     }
             }
         }
+        //Trả về Thứ trong tuần
         public string DayOfWeek()
         {
             int d = Day;
@@ -176,7 +219,7 @@ namespace BTTH_Bai03_04_05
 
             int h = (d + 13 * (m + 1) / 5 + K + K / 4 + J / 4 + 5 * J) % 7;
 
-            string[] days = { "Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+            string[] days = { "Thu bay", "Chu nhat", "Thu hai", "Thu ba", "Thu tu", "Thu nam", "Thu sau" };
             return days[(h + 7) % 7];
         }
 
