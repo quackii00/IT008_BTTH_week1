@@ -36,6 +36,11 @@ namespace BTTH_Bai03_04_05
                         {
                             Console.WriteLine("Tim thu trong tuan dua vao ngay thang nam");
                             userDate.ReadDate();
+                            while (!userDate.IsValidDate())
+                            {
+                                Console.WriteLine("Ngay khong hop le, Hay nhap lai!");
+                                userDate.ReadDate();
+                            }    
                             Console.WriteLine("Thu trong tuan la: " + userDate.DayOfWeek());
                             break;
                         }
@@ -69,11 +74,11 @@ namespace BTTH_Bai03_04_05
         //Nhập ngày tháng năm từ bàn phím
         public void ReadDate()
         {
-            Console.Write("Nhap Ngay : ");
+            Console.Write("Nhap Ngay (1-31) : ");
             this.Day = byte.Parse(Console.ReadLine());
-            Console.Write("Nhap Thang : ");
+            Console.Write("Nhap Thang (1-12) : ");
             this.Month = byte.Parse(Console.ReadLine());
-            Console.Write("Nhap Nam : ");
+            Console.Write("Nhap Nam (Khac 0): ");
             this.Year= int.Parse(Console.ReadLine());
         }
         
