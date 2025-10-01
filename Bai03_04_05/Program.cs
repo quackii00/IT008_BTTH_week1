@@ -181,8 +181,7 @@ namespace BTTH_Bai03_04_05
         //Nhập tháng và năm
         public void ReadMonthAndYear()
         {
-            Console.Write("Nhap Thang ( 1-12): ");
-            this.Month = byte.Parse(Console.ReadLine());
+           this.Month = ReadIntInRange("Nhap Thang(1 - 12) : ", 1, 12);
             Console.Write("Nhap Nam (khac 0): ");
             this.Year = int.Parse(Console.ReadLine());
         }
