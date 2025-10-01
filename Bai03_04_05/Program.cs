@@ -42,7 +42,7 @@ namespace BTTH_Bai03_04_05
                         {
                             Console.WriteLine("Tim so ngay trong thang dua vao thang va nam");
                             userDate.ReadMonthAndYear();
-                            Console.WriteLine($"So ngay trong thang {userDate.GetMonth()} la {userDate.GetDaysInMonth()}"); 
+                            Console.WriteLine($"So ngay trong thang {userDate.GetMonth()}/{userDate.GetYear()} la {userDate.GetDaysInMonth()}"); 
                             break;
                         }
                     //(c)
@@ -97,7 +97,10 @@ namespace BTTH_Bai03_04_05
         {
             return Month;
         }
-
+        public int GetYear()
+        {
+            return Year;
+        }
         //Nhập số nguyên trong khoảng max, min
         public int ReadIntInRange(string note, int min, int max)
         {
