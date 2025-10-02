@@ -9,7 +9,7 @@ namespace BTTH_Bai06
             int n = PositiveInt("Nhap n dong (n>0): ");
             int m = PositiveInt("Nhap m cot (m>0): ");
             int k = PositiveRow(n);
-            int[,] arr = CreateRandomArr(n, m, -50, 150);
+            int[,] arr = CreateRandomArr(n, m, -50, 50);
             //(a) Xuất ma trận
             Console.WriteLine("(a). Ma tran : ");
             WriteMatrix(arr);
@@ -231,16 +231,18 @@ namespace BTTH_Bai06
 
         //(f) Xóa cột chứa phần tử lớn nhất
         static int[,] RemoveColsHaveMaxValue(int[,] arr)
+            
         {
-            if (arr == null) return null;
+            if (arr.GetLength(1) == 1) return null;
             int[,] newArr;
             int MaxValue = FindMax(arr);
             int IndexMaxValue = GetColIndexofMaxValue(arr);
             newArr=RemoveCol(arr, IndexMaxValue);
             // Vì trong ma trận có nhiều phần tử cùng giá trị lớn nhất
-            while (FindMax(newArr) ==MaxValue)
+            while ( FindMax(newArr) ==MaxValue)
             {
-                newArr=RemoveCol(newArr, GetColIndexofMaxValue(newArr));
+                if (newArr.GetLength(1) == 1) return null;
+                newArr =RemoveCol(newArr, GetColIndexofMaxValue(newArr));
             }    
             return newArr;
         }
