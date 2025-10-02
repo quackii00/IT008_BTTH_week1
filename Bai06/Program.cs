@@ -8,102 +8,27 @@ namespace BTTH_Bai06
             //Đọc n hàng và m cột
             int n = PositiveInt("Nhap n dong (n>0): ");
             int m = PositiveInt("Nhap m cot (m>0): ");
+            int k = PositiveRow(n);
             int[,] arr = CreateRandomArr(n, m, -50, 150);
-            //(a)
+            //(a) Xuất ma trận
+            Console.WriteLine("(a). Ma tran : ");
             WriteMatrix(arr);
-            
-            byte Option;
-            do
-            {
-                Console.WriteLine("---------menu---------");
-                Console.WriteLine("1. Xuat ma tran ");
-                Console.WriteLine("2. Tim phan tu lon nhat va nho nhat");
-                Console.WriteLine("3. Tim dong co tong lon nhat ");
-                Console.WriteLine("4. Tinh tong cac so khong phai la so nguyen ");
-                Console.WriteLine("5. Xoa dong thu k trong ma tran ");
-                Console.WriteLine("6. Xoa cot chua phan tu lon nhat trong mang");
-                Console.WriteLine("0. Thoat");
-                Console.Write("Lua chon: ");
-                if (!byte.TryParse(Console.ReadLine(), out Option))
-                {
-                    Console.WriteLine("Nhap khong hop le. Thu lai!");
-                    continue;
-                }
-                switch (Option)
-                {
-                    case 1:
-                        {
-                            WriteMatrix(arr);
-                            break;
-                        }
-                    case 2:
-                        {
-                            if (arr == null)
-                            {
-                                Console.WriteLine("Khong con phan tu nao trong mang!");
-                                break;
-                            }
-                            Console.WriteLine("Phan tu lon nhat la: " + FindMax(arr));
-                            Console.WriteLine("Phan tu nho nhat la: " + FindMin(arr));
-                            break;
-                        }
-                    case 3:
-                        {
-                            if (arr == null)
-                            {
-                                Console.WriteLine("Khong con phan tu nao trong mang!");
-                                break;
-                            }
-                            Console.WriteLine("Dong co tong lon nhat la dong thu : " + (1 + FindMaxSumRow(arr)));
-                            break;
-                        }
-                    case 4:
-                        {
-                            if (arr == null)
-                            {
-                                Console.WriteLine("Khong con phan tu nao trong mang!");
-                                break;
-                            }
-                            Console.WriteLine("Tong cac so KHONG phai so nguyen to la: " + SumIsNotPrime(arr));
-                            break;
-                        }
-                    case 5:
-                        {
-                            if (arr == null)
-                            {
-                                Console.WriteLine("Khong con phan tu nao trong mang!");
-                                break;
-                            }
-                            int k = PositiveRow(arr);
-                            arr = RemoveRow(arr, k);
-                            Console.WriteLine($"Ma tran sau khi xoa hang thu {k}");
-                            WriteMatrix(arr);
-                            break;
-                        }
-                    case 6:
-                        {
-                            if (arr == null)
-                            {
-                                Console.WriteLine("Khong con phan tu nao trong mang!");
-                                break;
-                            }
-                                    
-                            Console.WriteLine($"Ma tran sau khi xoa cot chua phan tu lon nhat {FindMax(arr)} la");
-                            arr = RemoveColsHaveMaxValue(arr);
-                            WriteMatrix(arr);
-                            break;
-                        }
-                    case 0:
-                        {
-                            Console.WriteLine("Ket thuc chuong trinh");
-                            break;
-                        }
-
-                }
-                Console.WriteLine();
-
-            } while (Option != 0);   
-  
+            Console.WriteLine();
+            //(b) in phần tử lớn nhất và nhỏ nhất
+            Console.WriteLine("(b.1). Phan tu lon nhat la: " + FindMax(arr));
+            Console.WriteLine("(b.2). Phan tu nho nhat la: " + FindMin(arr));
+            Console.WriteLine();
+            //(c) Dòng có tổng lớn nhất
+            Console.WriteLine("(c). Dong co tong lon nhat la dong thu : " + (1 + FindMaxSumRow(arr)));
+            //(d) Tổng các số không phải số nguyên tố
+            Console.WriteLine("(d). Tong cac so KHONG phai so nguyen to la: " + SumIsNotPrime(arr));
+            //(e) Xóa dòng thứ k
+            Console.WriteLine($"(e). Ma tran sau khi xoa hang thu {k}");
+            WriteMatrix(RemoveRow(arr, k));
+            Console.WriteLine();
+            //(f) Xóa cột chứa phần tử lớn nhất
+            Console.WriteLine($"(f). Ma tran sau khi xoa cot chua phan tu lon nhat {FindMax(arr)} la");
+            WriteMatrix(RemoveColsHaveMaxValue(arr));
         }
 
         //Đọc kiểu số nguyên
@@ -119,14 +44,14 @@ namespace BTTH_Bai06
         }
 
         //Đọc hàng hợp lệ
-        static int PositiveRow(int[,] arr)
+        static int PositiveRow(int n)
         {
             int Pos;
             do
             {
-                Console.Write($"Nhap hang ban muon xoa ({1}->{arr.GetLength(0)}): ");
+                Console.Write($"Nhap hang ban muon xoa ({1}->{n}): ");
             }
-            while (!int.TryParse(Console.ReadLine(), out Pos) || (Pos <= 0 || Pos > arr.GetLength(0)));
+            while (!int.TryParse(Console.ReadLine(), out Pos) || (Pos <= 0 || Pos > n));
             return Pos;
         }
 
@@ -312,6 +237,7 @@ namespace BTTH_Bai06
             int MaxValue = FindMax(arr);
             int IndexMaxValue = GetColIndexofMaxValue(arr);
             newArr=RemoveCol(arr, IndexMaxValue);
+            // Vì trong ma trận có nhiều phần tử cùng giá trị lớn nhất
             while (FindMax(newArr) ==MaxValue)
             {
                 newArr=RemoveCol(newArr, GetColIndexofMaxValue(newArr));
